@@ -28,7 +28,7 @@ angular.module('myApp', ['rt.eventemitter']);
 Simply inject it as a service:
 
 ```js
-angular.module('myApp').factory('MyType', function ($scope, eventEmitter) {
+angular.module('myApp').factory('MyType', function (eventEmitter) {
     function MyType(something) {
         this.value = something;
     }
@@ -37,6 +37,19 @@ angular.module('myApp').factory('MyType', function ($scope, eventEmitter) {
     eventEmitter.inject(MyType);
 
     return MyType;
+});
+```
+
+You can then use all the normal event emitter methods:
+
+```js
+angular.module('myApp').controller('TestCtrl', function ($scope, MyType) {
+    var thing = new MyType(123);
+    thing.on('event', function (arg1, arg2) {
+        console.log('Got event: ' + arg1 + ', ' + arg2);
+    });
+
+    thing.emit('event', 4, 8);
 });
 ```
 
