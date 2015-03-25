@@ -46,7 +46,7 @@ angular.module('rt.eventemitter', []).factory('eventEmitter', function () {
   }
   return {
     inject: function (cls) {
-      var proto = cls.prototype;
+      var proto = cls.prototype || cls;
       proto.on = on;
       proto.once = once;
       proto.off = off;

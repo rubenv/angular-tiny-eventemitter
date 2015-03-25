@@ -103,4 +103,16 @@ describe('EventEmitter', function () {
         joe.emit('test');
         assert.equal(calls, 1);
     });
+
+    it('should inject in objects to', function () {
+        var __object = {};
+        eventEmitter.inject(__object);
+        assert.isFunction(__object.on);
+        assert.isFunction(__object.off);
+        assert.isFunction(__object.emit);
+        var called = false;
+        __object.on('test', function () { called = true; });
+        __object.emit('test');
+        assert.equal(called, true);
+    });
 });
