@@ -118,9 +118,8 @@ describe('EventEmitter', function () {
 
     it('is chainable', function () {
         var calls = 0;
-        joe.emit('test').
-          on('test', function () { calls += 1; }).
-          once('test', function () { calls++; });
+        joe.on('test', function () { calls += 1; }).
+          once('test', function () { calls += 1; });
         joe.emit('test');
         joe.emit('test');
         assert.equal(calls, 3);
