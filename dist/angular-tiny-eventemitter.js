@@ -9,6 +9,7 @@ angular.module('rt.eventemitter', []).factory('eventEmitter', function () {
       events[event] = [];
     }
     events[event].push(fn);
+    return this;
   }
   function once(event, fn) {
     var self = this;
@@ -17,10 +18,11 @@ angular.module('rt.eventemitter', []).factory('eventEmitter', function () {
       self.off(event, cb);
     };
     this.on(event, cb);
+    return this;
   }
   function off(event, fn) {
     if (!this[key] || !this[key][event]) {
-      return;
+      return this;
     }
     var events = this[key];
     if (!fn) {
@@ -32,6 +34,7 @@ angular.module('rt.eventemitter', []).factory('eventEmitter', function () {
         listeners.splice(index, 1);
       }
     }
+    return this;
   }
   function emit(event) {
     if (!this[key] || !this[key][event]) {
@@ -43,6 +46,7 @@ angular.module('rt.eventemitter', []).factory('eventEmitter', function () {
     for (var i = 0; i < listeners.length; i++) {
       listeners[i].apply(null, params);
     }
+    return this;
   }
   return {
     inject: function (cls) {

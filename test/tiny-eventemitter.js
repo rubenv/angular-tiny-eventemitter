@@ -115,4 +115,13 @@ describe('EventEmitter', function () {
         __object.emit('test');
         assert.equal(called, true);
     });
+
+    it('is chainable', function () {
+        var calls = 0;
+        joe.on('test', function () { calls += 1; }).
+          once('test', function () { calls += 1; });
+        joe.emit('test');
+        joe.emit('test');
+        assert.equal(calls, 3);
+    });
 });
