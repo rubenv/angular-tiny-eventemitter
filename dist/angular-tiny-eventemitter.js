@@ -1,6 +1,11 @@
 angular.module('rt.eventemitter', []).factory('eventEmitter', function () {
   var key = '_listeners';
-  function on(event, fn) {
+  function on($scope, event, fn) {
+    if (typeof $scope === 'string') {
+      fn = event;
+      event = $scope;
+      $scope = null;
+    }
     if (!this[key]) {
       this[key] = {};
     }
@@ -11,13 +16,18 @@ angular.module('rt.eventemitter', []).factory('eventEmitter', function () {
     events[event].push(fn);
     return this;
   }
-  function once(event, fn) {
+  function once($scope, event, fn) {
+    if (typeof $scope === 'string') {
+      fn = event;
+      event = $scope;
+      $scope = null;
+    }
     var self = this;
     var cb = function () {
       fn.apply(this, arguments);
       self.off(event, cb);
     };
-    this.on(event, cb);
+    this.on($scope, event, cb);
     return this;
   }
   function off(event, fn) {

@@ -124,4 +124,23 @@ describe('EventEmitter', function () {
         joe.emit('test');
         assert.equal(calls, 3);
     });
+
+    describe('auto-off', function () {
+
+        var $scopeMock;
+
+        beforeEach(function () {
+            $scopeMock = {};
+        });
+
+        it('optionally accepts a $scope as the first parameter', function () {
+            var called = false;
+            joe.on($scopeMock, 'test', function () { called = true; });
+            console.log(called);
+            joe.emit('test');
+            console.log(called);
+            assert.equal(called, true);
+        });
+
+    });
 });
