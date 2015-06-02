@@ -53,6 +53,12 @@ angular.module('myApp').controller('TestCtrl', function ($scope, MyType) {
 });
 ```
 
+You can optionally pass a $scope as the first parameter to on() or once() and the listener will be unregistered if the $scope is destroyed.
+
+```js
+thing.on($scope, 'event', callback);
+```
+
 ## License 
 
     (The MIT License)
