@@ -14,6 +14,12 @@ angular.module('rt.eventemitter', []).factory('eventEmitter', function () {
       events[event] = [];
     }
     events[event].push(fn);
+    var self = this;
+    if ($scope) {
+      $scope.$on('$destroy', function () {
+        self.off(event, fn);
+      });
+    }
     return this;
   }
   function once($scope, event, fn) {

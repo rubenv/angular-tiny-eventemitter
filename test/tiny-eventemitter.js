@@ -2,10 +2,12 @@ describe('EventEmitter', function () {
     var eventEmitter = null;
     var Person = null;
     var joe = null;
+    var $rootScope = null;
 
     beforeEach(module('rt.eventemitter'));
 
     beforeEach(inject(function ($injector) {
+        $rootScope = $injector.get('$rootScope');
         eventEmitter = $injector.get('eventEmitter');
         Person = function Person() {};
         eventEmitter.inject(Person);
@@ -130,16 +132,22 @@ describe('EventEmitter', function () {
         var $scopeMock;
 
         beforeEach(function () {
-            $scopeMock = {};
+            $scopeMock = $rootScope.$new();
         });
 
         it('optionally accepts a $scope as the first parameter', function () {
             var called = false;
             joe.on($scopeMock, 'test', function () { called = true; });
-            console.log(called);
             joe.emit('test');
-            console.log(called);
             assert.equal(called, true);
+        });
+
+        it('clears listeners on $scope $destroy', function () {
+            var called = false;
+            joe.on($scopeMock, 'test', function () { called = true; });
+            $scopeMock.$emit('$destroy');
+            joe.emit('test');
+            assert.equal(called, false);
         });
 
     });
