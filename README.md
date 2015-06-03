@@ -45,18 +45,37 @@ You can then use all the normal event emitter methods:
 ```js
 angular.module('myApp').controller('TestCtrl', function ($scope, MyType) {
     var thing = new MyType(123);
-    thing.on('event', function (arg1, arg2) {
+
+    function logTheEvent(arg1, arg2) {
         console.log('Got event: ' + arg1 + ', ' + arg2);
+    }
+
+    thing.on('event', logTheEvent);
+
+    $scope.$on('$destroy', function () {
+        // Remember to avoid memory leaks!
+        thing.off('event', logTheEvent);
     });
 
     thing.emit('event', 4, 8);
 });
 ```
 
-You can optionally pass a $scope as the first parameter to on() or once() and the listener will be unregistered if the $scope is destroyed.
+Alternatively, you can pass a $scope as the first parameter to on() or once() and the listener will be automatically unregistered if the $scope is destroyed.
 
 ```js
-thing.on($scope, 'event', callback);
+angular.module('myApp').controller('TestCtrl', function ($scope, MyType) {
+    var thing = new MyType(123);
+
+    function logTheEvent(arg1, arg2) {
+        console.log('Got event: ' + arg1 + ', ' + arg2);
+    }
+
+    // Passing $scope will register a $destroy event for you.
+    thing.on($scope, 'event', logTheEvent);
+
+    thing.emit('event', 4, 8);
+});
 ```
 
 ## License 
