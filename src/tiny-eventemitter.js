@@ -73,7 +73,7 @@ angular.module('rt.eventemitter', []).factory('eventEmitter', function () {
         var listeners = this[key][event].slice(0);
         var params = [].slice.call(arguments, 1);
         for (var i = 0; i < listeners.length; i++) {
-            listeners[i].apply(null, params);
+            listeners[i].apply(this, params);
         }
         return this;
     }
