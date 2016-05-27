@@ -1,5 +1,5 @@
 angular.module('rt.eventemitter', []).factory('eventEmitter', function () {
-    var key = '_listeners';
+    var key = '$$listeners';
 
     function on($scope, event, fn) {
         if (typeof $scope === 'string') {
