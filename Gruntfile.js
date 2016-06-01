@@ -5,9 +5,9 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-jscs-checker');
+    grunt.loadNpmTasks('grunt-jscs');
     grunt.loadNpmTasks('grunt-karma');
-    grunt.loadNpmTasks('grunt-ngmin');
+    grunt.loadNpmTasks('grunt-ng-annotate');
 
     grunt.initConfig({
         config: {
@@ -72,7 +72,7 @@ module.exports = function (grunt) {
             }
         },
 
-        ngmin: {
+        ngAnnotate: {
             dist: {
                 files: {
                     'dist/<%= config.name %>.js': 'dist/<%= config.name %>.js'
@@ -103,7 +103,7 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('default', ['test']);
-    grunt.registerTask('build', ['clean', 'jshint', 'jscs', 'concat', 'ngmin', 'uglify']);
+    grunt.registerTask('build', ['clean', 'jshint', 'jscs', 'concat', 'ngAnnotate', 'uglify']);
     grunt.registerTask('test', ['build', 'karma:unit', 'watch:all']);
     grunt.registerTask('ci', ['build', 'karma:unitci_firefox']);
 };
