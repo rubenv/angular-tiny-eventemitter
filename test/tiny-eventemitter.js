@@ -14,14 +14,27 @@ describe('EventEmitter', function () {
         joe = new Person();
     }));
 
-    it('Has an inject function', function () {
+    it('Has an inject and create functions', function () {
         assert.isFunction(eventEmitter.inject);
+        assert.isFunction(eventEmitter.create);
     });
 
     it('Injects event methods on the class', function () {
         assert.isFunction(joe.on);
         assert.isFunction(joe.off);
         assert.isFunction(joe.emit);
+    });
+
+    it('Creates a new empty object that gets injection of event methods', function () {
+        var emitter = eventEmitter.create();
+        assert.isFunction(emitter.on);
+        assert.isFunction(emitter.off);
+        assert.isFunction(emitter.emit);
+        emitter.id = 123;
+
+        var emitter2 = eventEmitter.create();
+        assert.equal(emitter.id, 123);
+        assert.equal(emitter2.id, undefined);
     });
 
     it('Emits events', function () {

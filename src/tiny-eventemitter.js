@@ -78,13 +78,22 @@ angular.module('rt.eventemitter', []).factory('eventEmitter', function () {
         return this;
     }
 
+    function inject(cls) {
+        var proto = cls.prototype || cls;
+        proto.on = on;
+        proto.once = once;
+        proto.off = off;
+        proto.emit = emit;
+    }
+
+    function create() {
+        var newEmitter = {};
+        inject(newEmitter);
+        return newEmitter;
+    }
+
     return {
-        inject: function (cls) {
-            var proto = cls.prototype || cls;
-            proto.on = on;
-            proto.once = once;
-            proto.off = off;
-            proto.emit = emit;
-        }
+        inject: inject,
+        create: create
     };
 });
