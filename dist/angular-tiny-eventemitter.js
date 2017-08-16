@@ -26,6 +26,7 @@ angular.module('rt.eventemitter', []).factory('eventEmitter', function () {
             });
         }
 
+
         return this;
     }
 
@@ -64,19 +65,31 @@ angular.module('rt.eventemitter', []).factory('eventEmitter', function () {
         return this;
     }
 
+    function getListeners(event) {
+        var self = this;
+        return Object.keys(self[key]).filter(function (evt) {
+            var regex = new RegExp(evt.replace(/\./g, '\\.').replace(/\*/g, '\.*') + '$');
+            return regex.test(event);
+        }).reduce(function (arr, evt) {
+            return arr.concat(self[key][evt]);
+        }, []);
+    }
+
     function emit(event) {
-        if (!this[key] || !this[key][event]) {
+        if (!this[key]) {
             return;
         }
 
         // Making a copy here to allow `off` in listeners.
-        var listeners = this[key][event].slice(0);
+        // var listeners = this[key][event].slice(0);
+        var listeners = getListeners.call(this, event);
         var params = [].slice.call(arguments, 1);
         for (var i = 0; i < listeners.length; i++) {
             listeners[i].apply(null, params);
         }
         return this;
     }
+
 
     return {
         inject: function (cls) {

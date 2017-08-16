@@ -96,7 +96,7 @@ module.exports = function (grunt) {
             },
             unitci_firefox: {
                 configFile: 'test/configs/unit.conf.js',
-                browsers: ['Firefox', 'PhantomJS'],
+                browsers: ['Chrome', 'PhantomJS'],
                 singleRun: true
             }
         }
