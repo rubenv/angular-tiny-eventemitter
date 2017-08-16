@@ -32,7 +32,7 @@ angular.module('myApp').factory('MyType', function (eventEmitter) {
     function MyType(something) {
         this.value = something;
     }
-    
+
     // Add event emitter methods to MyType.
     eventEmitter.inject(MyType);
 
@@ -78,7 +78,27 @@ angular.module('myApp').controller('TestCtrl', function ($scope, MyType) {
 });
 ```
 
-## License 
+
+You can use an asterisk.
+```js
+angular.module('myApp').controller('TestCtrl', function ($scope, MyType) {
+    var thing = new MyType(123);
+
+    function logTheEvent(arg1, arg2) {
+        console.log('Got event: ' + arg1 + ', ' + arg2);
+    }
+
+    // You can capture all.
+    thing.on($scope, 'event.*', logTheEvent);
+
+    thing.emit('event.one', 4, 8);
+    thing.emit('event.two', 1, 2);
+    thing.emit('event.three', 3, 4);
+});
+```
+
+
+## License
 
     (The MIT License)
 
