@@ -82,6 +82,28 @@ describe('EventEmitter', function () {
         assert.equal(calls2, 0);
     });
 
+    it('Calls correct listeners with asterisk', function () {
+        var calls = 0;
+        var calls2 = 0;
+        var calls3 = 0;
+        var calls4 = 0;
+        var listener = function a1() { calls += 1; };
+        var listener2 = function a2() { calls2 += 1; };
+        var listener3 = function a3() { calls3 += 1; };
+        var listener4 = function a4() { calls4 += 1; };
+        joe.on('test', listener);
+        joe.on('test2', listener2);
+        joe.on('test.*', listener3);
+        joe.on('test.hello', listener3);
+        joe.on('test2.hello', listener4);
+        joe.emit('test.hello');
+        assert.equal(calls, 0);
+        assert.equal(calls2, 0);
+        assert.equal(calls3, 2);
+        assert.equal(calls4, 0);
+    });
+
+
     it('Can call off in listeners', function () {
         var calls = 0;
         var calls2 = 0;
@@ -151,4 +173,5 @@ describe('EventEmitter', function () {
         });
 
     });
+
 });
