@@ -91,12 +91,12 @@ module.exports = function (grunt) {
         karma: {
             unit: {
                 configFile: 'test/configs/unit.conf.js',
-                browsers: ['Chrome'],
+                browsers: ['Firefox'],
                 background: true
             },
             unitci_firefox: {
                 configFile: 'test/configs/unit.conf.js',
-                browsers: ['Chrome', 'PhantomJS'],
+                browsers: ['Firefox', 'PhantomJS'],
                 singleRun: true
             }
         }
